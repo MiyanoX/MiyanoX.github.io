@@ -3,6 +3,10 @@
     background-color: hsl(160, 100%, 75%);
 }
 
+body {
+    margin: 10px;
+}
+
 header {
     position: -webkit-sticky; /* Safari */
     position: sticky;
@@ -10,7 +14,8 @@ header {
     box-sizing: border-box;
     font-weight: bolder;
     padding-top: 50px;
-
+    width: 100%;
+    z-index: 10;
 }
 
 header h1  {
@@ -29,6 +34,7 @@ header h2 {
 }   
 
 div {
+    position: relative;
     font-size: 24px;
     color: slategray;
     text-align: center;
@@ -42,10 +48,17 @@ div h2 {
     margin-bottom: 0;
 }
 
+#table {
+    overflow: auto;
+}
+
 table {
+    box-sizing: border-box;
     border-collapse: collapse;
     width: 100%;
     border-bottom: 4px solid black;
+    min-width: 800px;
+    
 }
 
 table th {
