@@ -33,14 +33,6 @@ header h2 {
     color: slategray;
 }   
 
-div {
-    position: relative;
-    font-size: 24px;
-    color: slategray;
-    text-align: center;
-}
-
-
 div h2 {
     text-transform: uppercase;
     background-color: black;
@@ -51,7 +43,11 @@ div h2 {
 
 .main {
     position: relative;
-    z-index: 10;
+    z-index: 1000;
+    position: relative;
+    font-size: 24px;
+    color: slategray;
+    text-align: center;
 }
 
 .table {
