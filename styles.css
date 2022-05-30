@@ -37,8 +37,8 @@ div {
     font-size: 24px;
     color: slategray;
     text-align: center;
-    z-index: 10;
 }
+
 
 div h2 {
     text-transform: uppercase;
@@ -46,6 +46,10 @@ div h2 {
     color: white;
     padding: 10px 0;
     margin-bottom: 0;
+}
+
+#main {
+    z-index: 10;
 }
 
 #table {
