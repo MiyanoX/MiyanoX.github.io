@@ -50,6 +50,7 @@ div h2 {
 }
 
 .main {
+    position: relative;
     z-index: 10;
 }
 
