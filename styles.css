@@ -16,7 +16,8 @@ header {
     font-weight: bolder;
     padding-top: 50px;
     width: 100%;
-    z-index: 10;
+    z-index: 1;
+    overflow: hidden;
 }
 
 header h1  {
