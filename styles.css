@@ -37,6 +37,7 @@ div {
     font-size: 24px;
     color: slategray;
     text-align: center;
+    z-index: 10;
 }
 
 div h2 {
