@@ -34,25 +34,31 @@ header h2 {
     color: slategray;
 }   
 
-div h2 {
+.main {
+    position: relative;
+    z-index: 1000;
+    font-size: 24px;
+    text-align: center;
     text-transform: uppercase;
-    background-color: black;
+    background-color:hsl(160, 100%, 75%);
     color: white;
+    padding-top: 1px;
+    
+}
+
+.main h2 {
+    background-color: black;
     padding: 10px 0;
     margin-bottom: 0;
 }
 
-.main {
+.table {
+    overflow: auto;
     position: relative;
     z-index: 1000;
-    position: relative;
     font-size: 24px;
     color: slategray;
     text-align: center;
-}
-
-.table {
-    overflow: auto;
 }
 
 table {
