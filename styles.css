@@ -15,6 +15,7 @@ header {
     font-weight: bolder;
     padding-top: 50px;
     width: 100%;
+    z-index: 1;
 }
 
 header h1  {
@@ -62,7 +63,6 @@ table {
     width: 100%;
     border-bottom: 4px solid black;
     min-width: 800px;
-    
 }
 
 table th {
