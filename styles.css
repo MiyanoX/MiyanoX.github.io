@@ -44,7 +44,7 @@ header h2 {
     color: white;
     padding-top: 1px;
     transform:translateZ(1px);
-    overflow: visible; /* ios problem */
+    overflow: auto; /* ios problem */
 }
 
 .main h2 {
