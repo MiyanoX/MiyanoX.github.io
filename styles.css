@@ -49,11 +49,11 @@ div h2 {
     margin-bottom: 0;
 }
 
-#main {
+.main {
     z-index: 10;
 }
 
-#table {
+.table {
     overflow: auto;
 }
 
