@@ -1,0 +1,792 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Recursion</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="7cb5573f-df70-4930-839d-144e82985fbe" class="page sans"><header><h1 class="page-title">Recursion</h1></header><div class="page-body"><p id="36e8eba0-483b-4d26-98ea-09466fda0f94" class="">
+</p><h2 id="7a3da581-3837-47ec-a474-3fc0bd71702b" class="">Call Stacks and Execution Frames</h2><p id="1e8c6344-1bcf-437a-8f24-a4db683fb573" class="">The key part in the recursion.</p><p id="e9c36a42-e1ab-4415-9fa3-c928114f6c54" class="">
+</p><h2 id="ff90dd54-cc9b-42ae-aea4-fb1033fc685f" class="">Base case and recursion step</h2><ul id="aebd81f1-ba69-44f4-a8a0-3090419372da" class="bulleted-list"><li style="list-style-type:disc">The recursive step will bring us closer to the base case, where no recursion takes place.</li></ul><ul id="3c61f1a9-749c-49c6-9695-fe550036999b" class="bulleted-list"><li style="list-style-type:disc">The relationship of function calls to input size determines the Big O runtime.</li></ul><p id="603047ff-6963-438f-add9-2e7aadb0faad" class="">
+</p><h2 id="0ff78bd0-9ef9-4f9a-907e-9338edc4c75c" class="">Call Stack</h2><pre id="5ae95bb7-f18e-4b29-993b-2c29558e9d67" class="code"><code>def sum_to_one(n):
+  result = 1
+  call_stack = []
+  
+  # push into call stack
+  while n != 1:
+    execution_context = {&quot;n_value&quot;: n}
+    call_stack.append(execution_context)
+    n -= 1
+    print(call_stack)
+  print(&quot;BASE CASE REACHED&quot;)
+
+  # pop from call stack
+  while len(call_stack) &gt; 0:
+    return_value = call_stack.pop()
+    print(call_stack)
+    result += return_value[&quot;n_value&quot;]
+  return result, call_stack
+
+sum_to_one(4)</code></pre><p id="2261a9a7-46cc-497f-a198-4f1047d893b1" class="">
+</p><h2 id="15fe2e0d-895d-49ad-b801-36c10a219aa0" class="">Big O</h2><p id="e784ad86-3e3f-4ab7-94cd-5da2ff548db7" class=""><code>O(N),</code><code>O(N^2), O(N*logN</code>)</p><pre id="1fc9f745-ee49-4478-8b2a-db3d4ad96faf" class="code"><code># Define factorial() below:
+def factorial(n):
+
+  # base case 
+  if n == 1:
+    return n
+
+  # recursive step
+  return n * factorial(n-1)
+
+print(factorial(1000)) # input is too big</code></pre><p id="3e6d94bf-d879-40f1-8969-aab4738bedb6" class=""><strong>Leading to the Recursion Error!</strong></p><p id="222ad404-7c16-428a-9958-23c2662084c8" class="">
+</p><h2 id="bdcc4b45-c28a-457f-8de2-e9da50e03383" class="">Solve Complex Problem</h2><p id="95bb2ebb-77c0-43d7-9470-def75285717b" class="">
+</p><h3 id="32d688e1-d12d-4bfe-8a96-01ec3bcfeebf" class="">Power Set</h3><pre id="00948697-aeca-449f-bcda-5977df477795" class="code"><code>def power_set(my_list):
+
+	# base case 
+  if len(my_list) == 0:
+    return [[]]
+
+	# recursive step
+	# 2nd part
+  power_set_without_first = power_set(my_list[1:])
+	# 1st part
+  with_first = [ [my_list[0]] + rest for rest in power_set_without_first ]
+	# return part
+  return with_first + power_set_without_first</code></pre><p id="7048595e-91eb-4c3b-847a-a6132b5ba68e" class="">
+</p><h3 id="9e203c1b-2cd2-4a87-8035-4bd3c46464a5" class="">Fibonacci</h3><pre id="6fcfa415-3d80-413f-9d29-e36e3c146993" class="code"><code>def fibonacci(n):
+  global time_cost
+  time_cost += 1
+  if n == 1:
+    return 1
+  elif n == 0:
+    return 0
+  else:
+    return fibonacci(n-1) + fibonacci(n-2)</code></pre><p id="fb8ff7e9-c2c6-496a-8802-80cb57d70899" class=""><strong>Use memorization call speed up whole process!</strong></p><p id="c9481f1e-abd5-4579-8319-6e50d639f1a7" class="">Like save the calculation result of fiboncci(n)</p><p id="ffa4afd5-2179-45d0-b355-3889cf063ec2" class="">
+</p><h3 id="516b31da-8827-471d-bccf-14f82ea1c3a6" class="">Binary Search Tree</h3><pre id="40f6cfe5-751b-49da-b77d-4cbac76087f1" class="code"><code># Define build_bst() below...
+def build_bst(my_list):
+  length = len(my_list)
+  if length == 0:
+    return &#x27;No Child&#x27;
+  middle_idx = length // 2
+  middle_value = my_list[middle_idx]
+  print(&quot;Middle index: &quot; + str(middle_idx))
+  print(&quot;Middle value: &quot; + str(middle_value))
+  tree_node = {&quot;data&quot;: middle_value}
+  tree_node[&quot;left_child&quot;] = build_bst(my_list[:middle_idx])
+  tree_node[&quot;right_child&quot;] = build_bst(my_list[middle_idx+1:])
+  return tree_node
+
+# For testing
+sorted_list = [12, 13, 14, 15, 16]
+binary_search_tree = build_bst(sorted_list)
+print(binary_search_tree)
+
+# fill in the runtime as a string
+# 1, logN, N, N*logN, N^2, 2^N, N!
+runtime = &quot;N*logN&quot;</code></pre><p id="a73fa475-9d79-4025-bf2f-794a4e38ab6a" class=""><strong>Runtime Explanation:</strong></p><p id="3f9d6cac-a2cf-47ec-9b14-892547f811a0" class=""><code>N</code> is the length of our input list.</p><p id="ac0897a9-6801-4aec-be1e-a9766dd458f8" class="">Our tree will be <code>logN</code> levels deep, meaning there will <code>logN</code> times where a new parent-child relationship is created.</p><p id="ea62323b-2e56-4dbc-b45d-4923fa3281cf" class="">If we have an 8 element list, the tree is 3 levels deep: <code>2**3 == 8</code>.</p><p id="c6abe01d-073c-4406-a490-108f89147971" class="">Each recursive call is going to copy approximately <code>N</code> elements when the left and right halves of the list are passed to the recursive calls. We’re reducing by <code>1</code> each time (the <code>middle_value</code>), but that’s a <em>constant factor</em>.</p><p id="49cde134-0886-4e79-84dd-4c6ae77de102" class="">Putting that together, we have <code>N</code> elements being copied <code>logN</code> levels for a big O of <code>N*logN</code>.</p><p id="17b7bec3-ebba-461e-ab50-c17dd9c0f295" class="">
+</p><p id="22092232-d4ab-45dc-a683-014f48583313" class="">
+</p><p id="57d4b189-6dec-4d8c-b31f-e8f38f0cba65" class="">
+</p><h3 id="d72503a3-ec05-4575-af34-2e025243d576" class="">Is palindrome</h3><pre id="4834e0af-b376-4aa5-be10-5e19cdb61681" class="code"><code>def is_palindrome(str):
+  if len(str) &lt;= 1:
+    return True
+  return str[0] == str[-1] and is_palindrome(str[1:-1])
+
+
+# test cases
+print(is_palindrome(&quot;abba&quot;) == True)
+print(is_palindrome(&quot;abcba&quot;) == True)
+print(is_palindrome(&quot;&quot;) == True)
+print(is_palindrome(&quot;abcd&quot;) == False)
+</code></pre><p id="587f2063-248a-4e8b-911d-7846a1d506be" class="">
+</p><h3 id="ee9ebd36-8b06-45d5-9c72-274f97e980b9" class="">BST</h3><pre id="d8c71e36-f9ea-4f23-8fa4-24ae91be8dd2" class="code"><code>def depth(tree, level=1):
+  if tree is None:
+    return level-1
+
+  level += 1
+  return max(depth(tree[&quot;left_child&quot;], level), depth(tree[&quot;right_child&quot;], level))
+
+
+# HELPER FUNCTION TO BUILD TREES
+def build_bst(my_list):
+  if len(my_list) == 0:
+    return None
+
+  mid_idx = len(my_list) // 2
+  mid_val = my_list[mid_idx]
+
+  tree_node = {&quot;data&quot;: mid_val}
+  tree_node[&quot;left_child&quot;] = build_bst(my_list[ : mid_idx])
+  tree_node[&quot;right_child&quot;] = build_bst(my_list[mid_idx + 1 : ])
+
+  return tree_node
+
+# HELPER VARIABLES
+tree_level_1 = build_bst([1])
+tree_level_2 = build_bst([1, 2, 3])
+tree_level_4 = build_bst([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]) 
+
+# test cases
+print(depth(tree_level_1) == 1)
+print(depth(tree_level_2) == 2)
+print(depth(tree_level_4) == 4)</code></pre></div></article></body></html>
